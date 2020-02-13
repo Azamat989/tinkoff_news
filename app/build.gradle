@@ -1,0 +1,101 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.2"
+    defaultConfig {
+        applicationId "com.example.tinkoffnews"
+        minSdkVersion 21
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            applicationIdSuffix = '.debug'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+dependencies {
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.core:core-ktx:1.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-alpha03"
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
+    testImplementation 'junit:junit:4.13'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    // Material
+    implementation "com.google.android.material:material:1.2.0-alpha04"
+
+    // Ktx
+    implementation "androidx.core:core-ktx:$core_ktx_version"
+    implementation "androidx.fragment:fragment-ktx:$fragment_ktx_version"
+    implementation "androidx.paging:paging-rxjava2-ktx:$paging_version"
+
+    // Paging Library
+    implementation "androidx.paging:paging-runtime:$paging_version"
+    testImplementation "androidx.paging:paging-common:$paging_version"
+
+    // Room Library
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-rxjava2:$room_version"
+
+    // Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
+
+    // Glide
+    implementation "com.github.bumptech.glide:glide:$glide_version"
+
+    // Uber
+    implementation "com.uber.autodispose:autodispose-ktx:1.2.0"
+    implementation "com.uber.autodispose:autodispose-android-archcomponents-ktx:1.2.0"
+
+    // Kodein
+    implementation "org.kodein.di:kodein-di-generic-jvm:$kodein_version"
+    implementation "org.kodein.di:kodein-di-framework-android-x:$kodein_version"
+    implementation "org.kodein.di:kodein-di-framework-android-core:$kodein_version"
+    implementation "org.kodein.di:kodein-di-conf-jvm:$kodein_version"
+
+    // RxJava
+    implementation "io.reactivex.rxjava2:rxjava:2.2.10"
+    implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
+    implementation 'io.reactivex.rxjava2:rxkotlin:2.2.0'
+
+    // Stetho
+    debugImplementation "com.facebook.stetho:stetho:1.5.1"
+    debugImplementation "com.facebook.stetho:stetho-okhttp:1.5.1"
+    debugImplementation "com.facebook.stetho:stetho-okhttp3:1.5.1"
+
+}
