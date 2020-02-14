@@ -12,6 +12,8 @@ object AppInjectionModule {
 
         import(DatabaseInjectionModule.module)
 
+        import(PreferencesInjectionModule.module)
+
         import(NewsListInjectionModule.module)
 
         import(NewsContentInjectionModule.module)

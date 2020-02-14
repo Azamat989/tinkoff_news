@@ -10,6 +10,7 @@ import com.example.tinkoffnews.newslist.ui.NewsFragment
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         setTheme(R.style.AppTheme)
 
         window.decorView.apply {
@@ -22,7 +23,7 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(findViewById(R.id.news_toolbar))
 
-        if(supportFragmentManager.fragments.size == 0) {
+        if (supportFragmentManager.fragments.isEmpty()) {
             supportFragmentManager.commit {
                 replace(R.id.fragmentContainer, NewsFragment())
             }

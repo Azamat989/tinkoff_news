@@ -46,7 +46,7 @@ object NewsListInjectionModule {
         }
 
         bind<NewsViewModel>() with singleton {
-            NewsViewModel(instance())
+            NewsViewModel(instance(), instance())
         }
     }
 }

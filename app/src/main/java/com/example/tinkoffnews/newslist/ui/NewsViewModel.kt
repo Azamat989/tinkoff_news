@@ -4,16 +4,20 @@ import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.paging.PagedList
+import com.example.tinkoffnews.app.di.PreferencesInjectionModule
 import com.example.tinkoffnews.newslist.domain.NewsBlock
 import com.example.tinkoffnews.newslist.domain.NewsInteractor
+import com.f2prateek.rx.preferences2.RxSharedPreferences
 import io.reactivex.Completable
+import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.processors.BehaviorProcessor
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 
 class NewsViewModel(
-    private val newsInteractor: NewsInteractor
+    private val newsInteractor: NewsInteractor,
+    private val rxSharedPreferences: RxSharedPreferences
 ) : ViewModel() {
 
     val news = BehaviorProcessor.create<PagedList<NewsBlock>>().toSerialized()
@@ -26,8 +30,15 @@ class NewsViewModel(
 
     init {
 
-        newsInteractor
-            .refreshNews()
+        isFirstLaunch()
+            .flatMapCompletable {
+                Log.d(TAG, "isFirstLaunch=$it")
+                if (it) {
+                    newsInteractor.refreshNews()
+                        .andThen(setIsFirstLaunchFalse())
+                }
+                else Completable.complete()
+            }
             .andThen(newsInteractor.getNewsPagedList())
             .doOnSubscribe { isRefreshing.onNext(true) }
             .doOnNext { isRefreshing.onNext(false) }
@@ -61,9 +72,22 @@ class NewsViewModel(
             .let { compositeDisposable.add(it) }
     }
 
+    private fun isFirstLaunch(): Single<Boolean> =
+        Single.fromCallable {
+            rxSharedPreferences
+                .getBoolean(PreferencesInjectionModule.PREF_IS_FIRST_LAUNCH, true)
+                .get()
+        }
+
+    private fun setIsFirstLaunchFalse(): Completable =
+        Completable.fromRunnable {
+            rxSharedPreferences
+                .getBoolean(PreferencesInjectionModule.PREF_IS_FIRST_LAUNCH)
+                .set(false)
+        }
+
     private fun invalidateCurrentDataSource(): Completable =
-        news
-            .firstElement()
+        news.firstElement()
             .flatMapCompletable {
                 Completable
                     .fromRunnable { it.dataSource.invalidate() }
