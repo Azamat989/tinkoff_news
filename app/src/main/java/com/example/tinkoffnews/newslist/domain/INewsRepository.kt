@@ -1,6 +1,5 @@
 package com.example.tinkoffnews.newslist.domain
 
-import androidx.paging.DataSource
 import io.reactivex.Completable
 
 interface INewsRepository {
@@ -9,5 +8,5 @@ interface INewsRepository {
 
     fun deleteAllNews(): Completable
 
-    fun getDataSource(): DataSource.Factory<Int, NewsBlock>
+    fun getNews(startPosition: Int, loadSize: Int): List<NewsBlock>
 }

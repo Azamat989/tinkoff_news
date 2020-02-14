@@ -5,13 +5,11 @@ import androidx.lifecycle.ViewModel
 import androidx.paging.PagedList
 import com.example.tinkoffnews.newslist.domain.NewsBlock
 import com.example.tinkoffnews.newslist.domain.NewsInteractor
-import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.Completable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.processors.BehaviorProcessor
-import io.reactivex.processors.FlowableProcessor
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
-import io.reactivex.subjects.BehaviorSubject
 
 class NewsViewModel(
     private val newsInteractor: NewsInteractor
@@ -53,6 +51,7 @@ class NewsViewModel(
     fun refreshNews() {
         newsInteractor
             .refreshNews()
+            .andThen(invalidateCurrentDataSource())
             .doOnSubscribe { isRefreshing.onNext(true) }
             .doFinally { isRefreshing.onNext(false) }
             .subscribeOn(Schedulers.io())
@@ -61,6 +60,14 @@ class NewsViewModel(
             )
             .let { compositeDisposable.add(it) }
     }
+
+    private fun invalidateCurrentDataSource(): Completable =
+        news
+            .firstElement()
+            .flatMapCompletable {
+                Completable
+                    .fromRunnable { it.dataSource.invalidate() }
+            }
 
     companion object {
         const val TAG = "NewsViewModel"

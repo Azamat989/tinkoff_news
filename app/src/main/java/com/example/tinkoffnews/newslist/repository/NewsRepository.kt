@@ -1,6 +1,5 @@
 package com.example.tinkoffnews.newslist.repository
 
-import androidx.paging.DataSource
 import com.example.tinkoffnews.newslist.db.NewsDao
 import com.example.tinkoffnews.newslist.domain.INewsRepository
 import com.example.tinkoffnews.newslist.domain.NewsBlock
@@ -21,9 +20,9 @@ class NewsRepository(
     override fun deleteAllNews(): Completable =
         newsDao.deleteAll()
 
-    override fun getDataSource(): DataSource.Factory<Int, NewsBlock> =
+    override fun getNews(startPosition: Int, loadSize: Int): List<NewsBlock> =
         newsDao
-            .select()
-            .mapByPage { entities -> newsConverter.fromDatabase(entities) }
+            .select(startPosition, loadSize)
+            .map { newsConverter.fromDatabase(it) }
 
 }

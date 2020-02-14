@@ -29,7 +29,7 @@ class NewsConverter {
             publicationDate = newsBlock.publicationDate.milliseconds
         )
 
-    private fun fromDatabase(newsBlock: NewsBlockEntity): NewsBlock =
+    fun fromDatabase(newsBlock: NewsBlockEntity): NewsBlock =
         NewsBlock(
             id = newsBlock.id,
             name = newsBlock.name,
