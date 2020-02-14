@@ -1,5 +1,6 @@
 package com.example.tinkoffnews.newsdetails.ui
 
+import android.os.Bundle
 import android.text.Spanned
 import android.util.Log
 import androidx.core.text.HtmlCompat
@@ -11,7 +12,7 @@ import io.reactivex.subjects.BehaviorSubject
 
 class NewsContentViewModel(
     newsContentInteractor: NewsContentInteractor,
-    newsId: String
+    val newsId: String
 ) : ViewModel() {
 
     val newsContent = BehaviorSubject.create<Spanned>().toSerialized()
@@ -40,6 +41,6 @@ class NewsContentViewModel(
     }
 
     companion object {
-        const val TAG = "NewsDetailsViewModel"
+        const val TAG = "NewsContentViewModel"
     }
 }

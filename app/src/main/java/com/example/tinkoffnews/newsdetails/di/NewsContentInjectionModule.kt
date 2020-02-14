@@ -29,7 +29,7 @@ object NewsContentInjectionModule {
             NewsContentInteractor(instance())
         }
 
-        bind<NewsContentViewModel>() with factory { newsId: String ->
+        bind<NewsContentViewModel>() with multiton { newsId: String ->
             NewsContentViewModel(
                 instance(),
                 newsId

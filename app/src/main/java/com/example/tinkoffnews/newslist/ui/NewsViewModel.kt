@@ -1,5 +1,6 @@
 package com.example.tinkoffnews.newslist.ui
 
+import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.paging.PagedList
@@ -19,33 +20,32 @@ class NewsViewModel(
 
     val isRefreshing = BehaviorProcessor.create<Boolean>().toSerialized()
 
+    var recyclerViewState: Bundle? = null
+
     private val compositeDisposable = CompositeDisposable()
 
     init {
 
-        getNews()
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        Log.e(TAG, "onCleared() is called")
-        compositeDisposable.clear()
-    }
-
-    private fun getNews() {
         newsInteractor
-            .getNewsPagedList()
+            .refreshNews()
+            .andThen(newsInteractor.getNewsPagedList())
+            .doOnSubscribe { isRefreshing.onNext(true) }
+            .doOnNext { isRefreshing.onNext(false) }
             .subscribeOn(Schedulers.io())
             .subscribe(
                 {
                     Log.d(TAG, "next PagedList: size=${it.size}")
                     news.onNext(it)
                 },
-                {
-                    Log.e(TAG, it.message ?: "No error message...")
-                }
+                { Log.e(TAG, it.message ?: "No error message...") }
             )
             .let { compositeDisposable.add(it) }
+
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        compositeDisposable.clear()
     }
 
     fun refreshNews() {

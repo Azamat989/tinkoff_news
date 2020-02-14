@@ -9,10 +9,7 @@ import com.example.tinkoffnews.newslist.paging.NewsSourceFactory
 import com.example.tinkoffnews.newslist.repository.NewsRepository
 import com.example.tinkoffnews.newslist.ui.NewsViewModel
 import org.kodein.di.Kodein
-import org.kodein.di.generic.bind
-import org.kodein.di.generic.instance
-import org.kodein.di.generic.provider
-import org.kodein.di.generic.singleton
+import org.kodein.di.generic.*
 import retrofit2.Retrofit
 
 object NewsListInjectionModule {
@@ -48,7 +45,7 @@ object NewsListInjectionModule {
             NewsInteractor(instance(), instance(), instance())
         }
 
-        bind<NewsViewModel>() with provider {
+        bind<NewsViewModel>() with singleton {
             NewsViewModel(instance())
         }
     }

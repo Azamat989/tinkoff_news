@@ -26,7 +26,7 @@ class NewsPositionalDataSource(
         )
 
         val result = newsRepository.getNews(params.requestedStartPosition, params.requestedLoadSize)
-        callback.onResult(result, 0)
+        callback.onResult(result, params.requestedStartPosition)
     }
 
     companion object {

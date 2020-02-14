@@ -1,12 +1,16 @@
 package com.example.tinkoffnews.newslist.ui
 
 import android.os.Bundle
+import android.os.Parcelable
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
+import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.tinkoffnews.R
+import com.example.tinkoffnews.app.ui.MainActivity
 import com.example.tinkoffnews.newsdetails.ui.NewsContentFragment
 import com.example.tinkoffnews.utils.viewModel
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
@@ -28,9 +32,24 @@ class NewsFragment : Fragment(R.layout.fragment_news), KodeinAware {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        setupViews()
+        (requireActivity() as MainActivity).supportActionBar?.title =
+            getString(R.string.news_list_title)
 
-        listenForNews()
+        setupAdapter()
+
+        setupViews()
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        listenForDataChange()
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+        saveRecyclerViewState()
     }
 
     private fun setupViews() {
@@ -39,60 +58,100 @@ class NewsFragment : Fragment(R.layout.fragment_news), KodeinAware {
             viewModel.refreshNews()
         }
 
-        newsAdapter = NewsAdapter { newsId ->
-
-            Log.d(TAG, "newsId=$newsId")
-            val fr = NewsContentFragment()
-
-            val bundle = Bundle().apply { putString(NewsContentFragment.ARG_NEWS_ID, newsId) }
-
-            fr.arguments = bundle
-
-            parentFragmentManager.commit {
-                addToBackStack(null)
-                replace(R.id.fragmentContainer, fr)
-            }
-        }
-
         newsRecyclerView.layoutManager = LinearLayoutManager(requireActivity())
         newsRecyclerView.adapter = newsAdapter
+
     }
 
-    private fun listenForNews() {
+    private fun setupAdapter() {
+
+        newsAdapter = NewsAdapter { newsId ->
+            Log.d(TAG, "newsId=$newsId")
+            openNewsContentFragment(newsId)
+        }
+
+        newsAdapter.registerAdapterDataObserver(getAdapterDataObserver())
+    }
+
+    private fun openNewsContentFragment(newsId: String) {
+
+        val contentFragment = NewsContentFragment()
+
+        val bundle =
+            Bundle().apply {
+                putString(NewsContentFragment.ARG_NEWS_ID, newsId)
+            }
+
+        contentFragment.arguments = bundle
+
+        parentFragmentManager.commit {
+            addToBackStack(NewsContentFragment::class.java.name)
+            replace(R.id.fragmentContainer, contentFragment)
+        }
+    }
+
+    private fun listenForDataChange() {
 
         viewModel.news
             .onBackpressureBuffer()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .autoDisposable(AndroidLifecycleScopeProvider.from(viewLifecycleOwner))
+            .autoDisposable(AndroidLifecycleScopeProvider.from(lifecycle, Lifecycle.Event.ON_STOP))
             .subscribe(
                 {
                     Log.d(TAG, "next PagedList: size=${it.size}")
                     newsAdapter.submitList(it)
                 },
-                {
-                    Log.e(TAG, it.message ?: "No error message...")
-                }
+                { Log.e(TAG, it.message ?: "No error message...") }
             )
 
         viewModel.isRefreshing
             .onBackpressureLatest()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .autoDisposable(AndroidLifecycleScopeProvider.from(viewLifecycleOwner))
+            .autoDisposable(AndroidLifecycleScopeProvider.from(lifecycle, Lifecycle.Event.ON_STOP))
             .subscribe(
-                {
-                    newsSwipeToRefreshLayout.isRefreshing = it
-                },
-                {
-                    Log.e(TAG, it.message ?: "No error message...")
-                }
+                { newsSwipeToRefreshLayout.isRefreshing = it },
+                { Log.e(TAG, it.message ?: "No error message...") }
             )
     }
 
+    private fun getAdapterDataObserver(): RecyclerView.AdapterDataObserver =
 
+        object : RecyclerView.AdapterDataObserver() {
+
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                restoreRecyclerViewState()
+            }
+        }
+
+    private fun saveRecyclerViewState() {
+
+        viewModel.recyclerViewState = Bundle()
+
+        newsRecyclerView
+            .layoutManager
+            ?.onSaveInstanceState()
+            ?.let {
+                Log.d(TAG, "parcelable=$it")
+                viewModel.recyclerViewState?.putParcelable(KEY_RECYCLER_STATE, it)
+            }
+    }
+
+    private fun restoreRecyclerViewState() {
+
+        viewModel
+            .recyclerViewState
+            ?.getParcelable<Parcelable>(KEY_RECYCLER_STATE)
+            ?.let {
+                newsRecyclerView.layoutManager?.onRestoreInstanceState(it)
+            }
+    }
 
     companion object {
+
         const val TAG = "NewsFragment"
+
+        private const val KEY_RECYCLER_STATE = "KEY_RECYCLER_STATE"
     }
 }
