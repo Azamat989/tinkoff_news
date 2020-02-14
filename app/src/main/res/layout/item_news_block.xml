@@ -1,19 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/newsBlockLinearLayout"
+    android:id="@+id/imageContainerCardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:layout_margin="6dp">
+    android:layout_marginStart="12dp"
+    android:layout_marginEnd="12dp"
+    android:layout_marginTop="6dp"
+    android:layout_marginBottom="6dp"
+    app:cardCornerRadius="6dp"
+    app:cardElevation="6dp"
+    app:cardPreventCornerOverlap="true">
 
     <TextView
         android:id="@+id/newsTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-medium"
+        android:fontFamily="sans-serif-smallcaps"
+        android:textColor="@color/black"
         android:padding="16dp"
         android:textSize="18sp"
         tools:text="Клиенты высоко оценили уровень сервиса в банке «Тинькофф Кредитные Системы»" />
 
-</LinearLayout>
+</androidx.cardview.widget.CardView>

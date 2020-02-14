@@ -144,7 +144,14 @@ class NewsFragment : Fragment(R.layout.fragment_news), KodeinAware {
             .recyclerViewState
             ?.getParcelable<Parcelable>(KEY_RECYCLER_STATE)
             ?.let {
-                newsRecyclerView.layoutManager?.onRestoreInstanceState(it)
+                newsRecyclerView.postDelayed(
+                    {
+                        newsRecyclerView
+                            .layoutManager
+                            ?.onRestoreInstanceState(it)
+                    },
+                    100
+                )
             }
     }
 

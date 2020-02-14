@@ -1,9 +1,10 @@
+@file:Suppress("UNCHECKED_CAST")
+
 package com.example.tinkoffnews.utils
 
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import org.kodein.di.KodeinAware
 import org.kodein.di.direct
 import org.kodein.di.generic.instance
