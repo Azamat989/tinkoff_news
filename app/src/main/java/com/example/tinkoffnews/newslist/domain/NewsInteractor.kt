@@ -33,7 +33,12 @@ class NewsInteractor(
     fun refreshNews(): Completable =
         newsGateway
             .getNews()
-            .flatMapCompletable { newsRepository.saveNews(it) }
+            .flatMapCompletable {
+                newsRepository.saveNews(it)
+            }
+
+    fun isDatabaseEmpty(): Flowable<Boolean> =
+        newsRepository.isDatabaseEmpty()
 
     companion object {
 

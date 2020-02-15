@@ -4,9 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.commit
 import com.example.tinkoffnews.R
-import com.example.tinkoffnews.newslist.ui.NewsFragment
 import com.example.tinkoffnews.utils.viewModel
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
 import com.uber.autodispose.autoDisposable
@@ -47,20 +45,9 @@ class MainActivity : AppCompatActivity(), KodeinAware {
             .observeOn(AndroidSchedulers.mainThread())
             .autoDisposable(AndroidLifecycleScopeProvider.from(lifecycle))
             .subscribe(
-                { navigateToNewsFragment() },
-                {
-                    Log.e(TAG, it.message ?: "No error message...")
-                    navigateToNewsFragment()
-                }
+                { Log.d(TAG, "app started") },
+                { Log.e(TAG, it.message ?: "No error message...") }
             )
-    }
-
-    private fun navigateToNewsFragment() {
-        if (supportFragmentManager.fragments.isEmpty()) {
-            supportFragmentManager.commit {
-                replace(R.id.fragmentContainer, NewsFragment())
-            }
-        }
     }
 
     companion object {

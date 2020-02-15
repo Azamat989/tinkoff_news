@@ -1,10 +1,10 @@
-package com.example.tinkoffnews.newsdetails.di
+package com.example.tinkoffnews.newscontent.di
 
-import com.example.tinkoffnews.newsdetails.ui.NewsContentViewModel
-import com.example.tinkoffnews.newsdetails.api.NewsDetailsApi
-import com.example.tinkoffnews.newsdetails.domain.NewsContentConverter
-import com.example.tinkoffnews.newsdetails.domain.NewsContentInteractor
-import com.example.tinkoffnews.newsdetails.gateway.NewsContentGateway
+import com.example.tinkoffnews.newscontent.ui.NewsContentViewModel
+import com.example.tinkoffnews.newscontent.api.NewsDetailsApi
+import com.example.tinkoffnews.newscontent.domain.NewsContentConverter
+import com.example.tinkoffnews.newscontent.domain.NewsContentInteractor
+import com.example.tinkoffnews.newscontent.gateway.NewsContentGateway
 import org.kodein.di.Kodein
 import org.kodein.di.generic.*
 import retrofit2.Retrofit

@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 import com.example.tinkoffnews.newslist.db.NewsBlockEntity
 import com.example.tinkoffnews.newslist.db.NewsDao
 
-@Database(entities = [NewsBlockEntity::class], version = 1)
+@Database(entities = [NewsBlockEntity::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun newsDao(): NewsDao

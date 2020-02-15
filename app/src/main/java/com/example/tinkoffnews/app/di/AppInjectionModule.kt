@@ -1,6 +1,6 @@
 package com.example.tinkoffnews.app.di
 
-import com.example.tinkoffnews.newsdetails.di.NewsContentInjectionModule
+import com.example.tinkoffnews.newscontent.di.NewsContentInjectionModule
 import com.example.tinkoffnews.newslist.di.NewsListInjectionModule
 import org.kodein.di.Kodein
 

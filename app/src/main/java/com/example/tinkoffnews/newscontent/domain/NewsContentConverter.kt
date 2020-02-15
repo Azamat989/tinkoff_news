@@ -1,6 +1,6 @@
-package com.example.tinkoffnews.newsdetails.domain
+package com.example.tinkoffnews.newscontent.domain
 
-import com.example.tinkoffnews.newsdetails.api.NewsContentResponse
+import com.example.tinkoffnews.newscontent.api.NewsContentResponse
 
 class NewsContentConverter {
 

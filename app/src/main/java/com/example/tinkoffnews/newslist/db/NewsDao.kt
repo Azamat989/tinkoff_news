@@ -5,6 +5,8 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import io.reactivex.Completable
+import io.reactivex.Flowable
+import io.reactivex.Observable
 
 @Dao
 interface NewsDao {
@@ -15,6 +17,6 @@ interface NewsDao {
     @Query("SELECT * FROM newsBlock LIMIT :loadSize OFFSET :startPosition")
     fun select(startPosition: Int, loadSize: Int): List<NewsBlockEntity>
 
-    @Query("DELETE FROM newsBlock")
-    fun deleteAll(): Completable
+    @Query("SELECT count(*) FROM newsBlock")
+    fun countNews(): Flowable<Int>
 }

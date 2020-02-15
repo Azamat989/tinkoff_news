@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/newsFragment">
+
+    <fragment
+        android:id="@+id/newsFragment"
+        android:name="com.example.tinkoffnews.newslist.ui.NewsFragment"
+        android:label="NewsFragment"
+        tools:layout="@layout/fragment_news">
+
+        <action
+            android:id="@+id/to_newsContent"
+            app:destination="@id/newsContentFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/newsContentFragment"
+        android:name="com.example.tinkoffnews.newscontent.ui.NewsContentFragment"
+        android:label="NewsContentFragment" >
+        <argument
+            android:name="newsId"
+            app:argType="string" />
+    </fragment>
+
+</navigation>

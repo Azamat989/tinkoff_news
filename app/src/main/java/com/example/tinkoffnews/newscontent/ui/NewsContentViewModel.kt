@@ -1,11 +1,10 @@
-package com.example.tinkoffnews.newsdetails.ui
+package com.example.tinkoffnews.newscontent.ui
 
-import android.os.Bundle
 import android.text.Spanned
 import android.util.Log
 import androidx.core.text.HtmlCompat
 import androidx.lifecycle.ViewModel
-import com.example.tinkoffnews.newsdetails.domain.NewsContentInteractor
+import com.example.tinkoffnews.newscontent.domain.NewsContentInteractor
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject

@@ -1,4 +1,4 @@
-package com.example.tinkoffnews.newsdetails.ui
+package com.example.tinkoffnews.newscontent.ui
 
 import android.os.Bundle
 import android.util.Log
@@ -7,6 +7,8 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.tinkoffnews.R
 import com.example.tinkoffnews.app.ui.MainActivity
 import com.example.tinkoffnews.utils.viewModel
@@ -23,8 +25,10 @@ class NewsContentFragment : Fragment(R.layout.fragment_news_content), KodeinAwar
 
     override val kodein: Kodein by kodein()
 
+    private val args: NewsContentFragmentArgs by navArgs()
+
     private val viewModel: NewsContentViewModel by viewModel {
-        arguments?.getString(ARG_NEWS_ID)
+        args.newsId
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -71,7 +75,7 @@ class NewsContentFragment : Fragment(R.layout.fragment_news_content), KodeinAwar
 
         when (item.itemId) {
             R.id.action_back -> {
-                requireActivity().onBackPressed()
+                findNavController().navigateUp()
                 true
             }
             else -> super.onOptionsItemSelected(item)

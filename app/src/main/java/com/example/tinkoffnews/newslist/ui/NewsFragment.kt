@@ -5,13 +5,11 @@ import android.os.Parcelable
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
 import androidx.lifecycle.Lifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.tinkoffnews.R
 import com.example.tinkoffnews.app.ui.MainActivity
-import com.example.tinkoffnews.newsdetails.ui.NewsContentFragment
 import com.example.tinkoffnews.utils.viewModel
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
 import com.uber.autodispose.autoDisposable
@@ -73,26 +71,11 @@ class NewsFragment : Fragment(R.layout.fragment_news), KodeinAware {
 
         newsAdapter = NewsAdapter { newsId ->
             Log.d(TAG, "newsId=$newsId")
-            openNewsContentFragment(newsId)
-        }
-    }
 
-    private fun openNewsContentFragment(newsId: String) {
+            saveRecyclerViewState()
 
-        saveRecyclerViewState()
-
-        val contentFragment = NewsContentFragment()
-
-        val bundle =
-            Bundle().apply {
-                putString(NewsContentFragment.ARG_NEWS_ID, newsId)
-            }
-
-        contentFragment.arguments = bundle
-
-        parentFragmentManager.commit {
-            addToBackStack(NewsContentFragment::class.java.name)
-            replace(R.id.fragmentContainer, contentFragment)
+            findNavController()
+                .navigate(NewsFragmentDirections.toNewsContent(newsId))
         }
     }
 

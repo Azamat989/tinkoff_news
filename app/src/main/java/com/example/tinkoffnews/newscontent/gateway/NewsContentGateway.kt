@@ -1,8 +1,8 @@
-package com.example.tinkoffnews.newsdetails.gateway
+package com.example.tinkoffnews.newscontent.gateway
 
-import com.example.tinkoffnews.newsdetails.api.NewsDetailsApi
-import com.example.tinkoffnews.newsdetails.domain.NewsContent
-import com.example.tinkoffnews.newsdetails.domain.NewsContentConverter
+import com.example.tinkoffnews.newscontent.api.NewsDetailsApi
+import com.example.tinkoffnews.newscontent.domain.NewsContent
+import com.example.tinkoffnews.newscontent.domain.NewsContentConverter
 import io.reactivex.Single
 
 class NewsContentGateway(

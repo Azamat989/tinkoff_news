@@ -13,7 +13,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:context=".newsdetails.ui.NewsContentFragment">
+        tools:context=".newscontent.ui.NewsContentFragment">
 
         <TextView
             android:id="@+id/newsContentTextView"

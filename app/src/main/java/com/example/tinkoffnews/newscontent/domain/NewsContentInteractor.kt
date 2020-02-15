@@ -1,6 +1,6 @@
-package com.example.tinkoffnews.newsdetails.domain
+package com.example.tinkoffnews.newscontent.domain
 
-import com.example.tinkoffnews.newsdetails.gateway.NewsContentGateway
+import com.example.tinkoffnews.newscontent.gateway.NewsContentGateway
 import io.reactivex.Single
 
 class NewsContentInteractor(

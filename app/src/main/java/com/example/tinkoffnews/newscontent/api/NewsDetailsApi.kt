@@ -1,4 +1,4 @@
-package com.example.tinkoffnews.newsdetails.api
+package com.example.tinkoffnews.newscontent.api
 
 import io.reactivex.Single
 import retrofit2.http.GET

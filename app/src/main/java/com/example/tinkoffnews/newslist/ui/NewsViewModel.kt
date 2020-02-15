@@ -40,6 +40,19 @@ class NewsViewModel(
             )
             .let { compositeDisposable.add(it) }
 
+        newsInteractor
+            .isDatabaseEmpty()
+            .onBackpressureLatest()
+            .flatMapCompletable {
+                Log.d(TAG, "isDatabaseEmpty=$it")
+                invalidateCurrentDataSource()
+            }
+            .subscribeOn(Schedulers.io())
+            .subscribe(
+                { Log.d(TAG, "invalidateCurrentDataSource() is called") },
+                { Log.e(TAG, it.message ?: "No error message...") }
+            )
+            .let { compositeDisposable.add(it) }
     }
 
     override fun onCleared() {
@@ -50,7 +63,6 @@ class NewsViewModel(
     fun refreshNews() {
         newsInteractor
             .refreshNews()
-            .andThen(invalidateCurrentDataSource())
             .doOnSubscribe { isRefreshing.onNext(true) }
             .doFinally { isRefreshing.onNext(false) }
             .subscribeOn(Schedulers.io())
