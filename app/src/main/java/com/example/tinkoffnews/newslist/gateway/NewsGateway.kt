@@ -15,4 +15,5 @@ class NewsGateway(
         newsApi
             .getNews()
             .map { newsResponse -> newsConverter.fromNetwork(newsResponse) }
+            .onErrorReturn { listOf() }
 }

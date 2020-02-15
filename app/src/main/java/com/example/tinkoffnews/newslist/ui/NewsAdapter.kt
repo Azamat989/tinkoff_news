@@ -40,8 +40,6 @@ class NewsAdapter(
         fun bind(newsBlock: NewsBlock) {
             view.newsTextView.text = newsBlock.text
 
-            Log.d(TAG, newsBlock.publicationDate.toString())
-
             view.setOnClickListener {
                 Log.d(TAG, "newsId=${newsBlock.id}")
                 onItemClickedListener.invoke(newsBlock.id)

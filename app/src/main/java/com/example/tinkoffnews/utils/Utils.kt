@@ -2,6 +2,7 @@
 
 package com.example.tinkoffnews.utils
 
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -15,6 +16,23 @@ inline fun <reified TViewModel, TFragment> TFragment.viewModel(
         where TViewModel : ViewModel,
               TFragment : KodeinAware,
               TFragment : Fragment {
+
+    return lazy {
+
+        ViewModelProvider(this, object : ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(aClass: Class<T>) =
+                kodein.direct.instance<TViewModel>(tag) as T
+        })
+            .get(TViewModel::class.java)
+    }
+}
+
+inline fun <reified TViewModel, TAppCompatActivity> TAppCompatActivity.viewModel(
+    tag: String? = null
+): Lazy<TViewModel>
+        where TViewModel : ViewModel,
+              TAppCompatActivity : KodeinAware,
+              TAppCompatActivity : AppCompatActivity {
 
     return lazy {
 

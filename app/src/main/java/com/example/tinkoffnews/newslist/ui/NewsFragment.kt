@@ -40,6 +40,12 @@ class NewsFragment : Fragment(R.layout.fragment_news), KodeinAware {
         setupViews()
     }
 
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        Log.d(TAG, "onViewStateRestored() is called")
+        restoreRecyclerViewState()
+    }
+
     override fun onStart() {
         super.onStart()
 
@@ -69,11 +75,11 @@ class NewsFragment : Fragment(R.layout.fragment_news), KodeinAware {
             Log.d(TAG, "newsId=$newsId")
             openNewsContentFragment(newsId)
         }
-
-        newsAdapter.registerAdapterDataObserver(getAdapterDataObserver())
     }
 
     private fun openNewsContentFragment(newsId: String) {
+
+        saveRecyclerViewState()
 
         val contentFragment = NewsContentFragment()
 
@@ -116,15 +122,6 @@ class NewsFragment : Fragment(R.layout.fragment_news), KodeinAware {
             )
     }
 
-    private fun getAdapterDataObserver(): RecyclerView.AdapterDataObserver =
-
-        object : RecyclerView.AdapterDataObserver() {
-
-            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-                restoreRecyclerViewState()
-            }
-        }
-
     private fun saveRecyclerViewState() {
 
         viewModel.recyclerViewState = Bundle()
@@ -146,11 +143,10 @@ class NewsFragment : Fragment(R.layout.fragment_news), KodeinAware {
             ?.let {
                 newsRecyclerView.postDelayed(
                     {
-                        newsRecyclerView
-                            .layoutManager
-                            ?.onRestoreInstanceState(it)
+                        newsRecyclerView.layoutManager?.onRestoreInstanceState(it)
+                        viewModel.recyclerViewState = null
                     },
-                    100
+                    5
                 )
             }
     }

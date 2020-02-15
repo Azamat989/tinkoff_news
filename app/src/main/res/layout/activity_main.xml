@@ -18,7 +18,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
-        app:title="Some Title"
+        app:title="@string/news_list_title"
         app:titleTextColor="@android:color/white" />
 
     <androidx.fragment.app.FragmentContainerView

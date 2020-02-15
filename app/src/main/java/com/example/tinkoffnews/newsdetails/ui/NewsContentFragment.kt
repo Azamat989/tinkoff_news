@@ -51,7 +51,6 @@ class NewsContentFragment : Fragment(R.layout.fragment_news_content), KodeinAwar
         super.onViewStateRestored(savedInstanceState)
 
         savedInstanceState?.getInt(KEY_SCROLL_VIEW_STATE)?.let {
-            Log.e(TAG, "onViewStateRestored() scrollY=$it")
 
             contentScrollView.postDelayed(
                 {

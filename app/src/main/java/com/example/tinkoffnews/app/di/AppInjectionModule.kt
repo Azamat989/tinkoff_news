@@ -14,6 +14,8 @@ object AppInjectionModule {
 
         import(PreferencesInjectionModule.module)
 
+        import(MainActivityInjectionModule.module)
+
         import(NewsListInjectionModule.module)
 
         import(NewsContentInjectionModule.module)
