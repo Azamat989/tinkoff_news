@@ -3,5 +3,6 @@
     <string name="app_name">Tinkoff News</string>
     <string name="news_list_title">Tinkoff News</string>
     <string name="news_content_close_item">Close</string>
+    <string name="news_content_retry_button">Retry</string>
 
 </resources>

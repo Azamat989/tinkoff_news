@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.navArgs
 import com.example.tinkoffnews.R
 import com.example.tinkoffnews.app.ui.MainActivity
@@ -29,15 +30,18 @@ class NewsContentFragment : Fragment(R.layout.fragment_news_content), KodeinAwar
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        setHasOptionsMenu(true)
+        setupToolbar()
 
-        (requireActivity() as MainActivity).supportActionBar?.apply {
-            title = viewModel.newsId
-            setDisplayHomeAsUpEnabled(true)
-            setDisplayShowHomeEnabled(true)
+        retryButton.setOnClickListener {
+            viewModel.getNewsContent()
         }
 
-        setupViews()
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        listenForDataChange()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -67,28 +71,77 @@ class NewsContentFragment : Fragment(R.layout.fragment_news_content), KodeinAwar
         }
     }
 
-    private fun setupViews() {
+    private fun listenForDataChange() {
 
         viewModel
             .newsContent
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .autoDisposable(AndroidLifecycleScopeProvider.from(viewLifecycleOwner))
+            .autoDisposable(AndroidLifecycleScopeProvider.from(viewLifecycleOwner, Lifecycle.Event.ON_STOP))
             .subscribe(
                 {
-                    hideProgress()
                     newsContentTextView.text = it
                 },
                 {
-                    hideProgress()
                     Log.e(TAG, it.message ?: "No error message...")
                 }
             )
 
+        viewModel
+            .isRefreshing
+            .onBackpressureBuffer()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .autoDisposable(AndroidLifecycleScopeProvider.from(viewLifecycleOwner, Lifecycle.Event.ON_STOP))
+            .subscribe(
+                {
+                    if (it) showProgress()
+                    else hideProgress()
+                },
+                { Log.e(TAG, it.message ?: "No error message...") }
+            )
+
+        viewModel
+            .shouldShowRetryButton
+            .onBackpressureLatest()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .autoDisposable(AndroidLifecycleScopeProvider.from(viewLifecycleOwner, Lifecycle.Event.ON_STOP))
+            .subscribe(
+                {
+                    if (it) showRetryButton()
+                    else hideRetryButton()
+                },
+                { Log.e(TAG, it.message ?: "No error message...") }
+            )
+
+    }
+
+    private fun setupToolbar() {
+
+        setHasOptionsMenu(true)
+
+        (requireActivity() as MainActivity).supportActionBar?.apply {
+            title = viewModel.newsId
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
+        }
     }
 
     private fun hideProgress() {
         progressBar.visibility = View.GONE
+    }
+
+    private fun showProgress() {
+        progressBar.visibility = View.VISIBLE
+    }
+
+    private fun hideRetryButton() {
+        retryButton.visibility = View.INVISIBLE
+    }
+
+    private fun showRetryButton() {
+        retryButton.visibility = View.VISIBLE
     }
 
     companion object {

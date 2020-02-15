@@ -30,11 +30,7 @@ class NewsFragment : Fragment(R.layout.fragment_news), KodeinAware {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        (requireActivity() as MainActivity).supportActionBar?.apply {
-            title = getString(R.string.news_list_title)
-            setDisplayHomeAsUpEnabled(false)
-            setDisplayShowHomeEnabled(false)
-        }
+        setupToolbar()
 
         setupAdapter()
 
@@ -57,6 +53,15 @@ class NewsFragment : Fragment(R.layout.fragment_news), KodeinAware {
         super.onStop()
 
         saveRecyclerViewState()
+    }
+
+    private fun setupToolbar() {
+
+        (requireActivity() as MainActivity).supportActionBar?.apply {
+            title = getString(R.string.news_list_title)
+            setDisplayHomeAsUpEnabled(false)
+            setDisplayShowHomeEnabled(false)
+        }
     }
 
     private fun setupViews() {

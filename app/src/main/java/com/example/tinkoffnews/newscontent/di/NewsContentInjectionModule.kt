@@ -1,7 +1,7 @@
 package com.example.tinkoffnews.newscontent.di
 
 import com.example.tinkoffnews.newscontent.ui.NewsContentViewModel
-import com.example.tinkoffnews.newscontent.api.NewsDetailsApi
+import com.example.tinkoffnews.newscontent.api.NewsContentApi
 import com.example.tinkoffnews.newscontent.domain.NewsContentConverter
 import com.example.tinkoffnews.newscontent.domain.NewsContentInteractor
 import com.example.tinkoffnews.newscontent.gateway.NewsContentGateway
@@ -13,8 +13,8 @@ object NewsContentInjectionModule {
 
     val module = Kodein.Module(NewsContentInjectionModule.javaClass.name) {
 
-        bind<NewsDetailsApi>() with singleton {
-            instance<Retrofit>().create(NewsDetailsApi::class.java)
+        bind<NewsContentApi>() with singleton {
+            instance<Retrofit>().create(NewsContentApi::class.java)
         }
 
         bind<NewsContentConverter>()with singleton {
