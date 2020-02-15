@@ -30,8 +30,11 @@ class NewsFragment : Fragment(R.layout.fragment_news), KodeinAware {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        (requireActivity() as MainActivity).supportActionBar?.title =
-            getString(R.string.news_list_title)
+        (requireActivity() as MainActivity).supportActionBar?.apply {
+            title = getString(R.string.news_list_title)
+            setDisplayHomeAsUpEnabled(false)
+            setDisplayShowHomeEnabled(false)
+        }
 
         setupAdapter()
 

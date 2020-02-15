@@ -50,6 +50,11 @@ class MainActivity : AppCompatActivity(), KodeinAware {
             )
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
+
     companion object {
         const val TAG = "MainActivity"
     }

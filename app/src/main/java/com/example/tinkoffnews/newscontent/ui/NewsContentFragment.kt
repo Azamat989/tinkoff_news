@@ -2,12 +2,8 @@ package com.example.tinkoffnews.newscontent.ui
 
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.tinkoffnews.R
 import com.example.tinkoffnews.app.ui.MainActivity
@@ -35,7 +31,11 @@ class NewsContentFragment : Fragment(R.layout.fragment_news_content), KodeinAwar
 
         setHasOptionsMenu(true)
 
-        (requireActivity() as MainActivity).supportActionBar?.title = viewModel.newsId
+        (requireActivity() as MainActivity).supportActionBar?.apply {
+            title = viewModel.newsId
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
+        }
 
         setupViews()
     }
@@ -67,20 +67,6 @@ class NewsContentFragment : Fragment(R.layout.fragment_news_content), KodeinAwar
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.toolbar_menu, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean =
-
-        when (item.itemId) {
-            R.id.action_back -> {
-                findNavController().navigateUp()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-
     private fun setupViews() {
 
         viewModel
@@ -107,7 +93,6 @@ class NewsContentFragment : Fragment(R.layout.fragment_news_content), KodeinAwar
 
     companion object {
 
-        const val ARG_NEWS_ID = "NewsId"
         private const val KEY_SCROLL_VIEW_STATE = "KEY_SCROLL_VIEW_STATE"
         const val TAG = "NewsContentFragment"
     }
