@@ -1,4 +1,4 @@
-package com.example.tinkoffnews.newslist.paging
+package com.example.tinkoffnews.newslist.domain.paging
 
 import androidx.paging.DataSource
 import com.example.tinkoffnews.newslist.domain.INewsRepository

@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tinkoffnews.R
 import com.example.tinkoffnews.app.ui.MainActivity
+import com.example.tinkoffnews.newslist.ui.adapter.NewsAdapter
 import com.example.tinkoffnews.utils.viewModel
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
 import com.uber.autodispose.autoDisposable
@@ -77,12 +78,13 @@ class NewsFragment : Fragment(R.layout.fragment_news), KodeinAware {
 
     private fun setupAdapter() {
 
-        newsAdapter = NewsAdapter { newsId ->
-            Log.d(TAG, "newsId=$newsId")
+        newsAdapter =
+            NewsAdapter { newsId ->
+                Log.d(TAG, "newsId=$newsId")
 
-            findNavController()
-                .navigate(NewsFragmentDirections.toNewsContent(newsId))
-        }
+                findNavController()
+                    .navigate(NewsFragmentDirections.toNewsContent(newsId))
+            }
     }
 
     private fun listenForDataChange() {

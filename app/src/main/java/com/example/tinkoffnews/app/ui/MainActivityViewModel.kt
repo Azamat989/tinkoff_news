@@ -17,14 +17,15 @@ class MainActivityViewModel(
         isFirstLaunch()
             .flatMapCompletable {
                 Log.d(TAG, "isFirstLaunch=$it")
-                if (it) {
-                    loadData()
-                        .andThen(setIsFirstLaunchFalse())
-                } else Completable.complete()
-            }
 
-    private fun loadData(): Completable =
-        newsInteractor.refreshNews()
+                if (it) {
+                    newsInteractor
+                        .refreshNews()
+                        .andThen(setIsFirstLaunchFalse())
+                } else {
+                    Completable.complete()
+                }
+            }
 
     private fun isFirstLaunch(): Single<Boolean> =
         Single.fromCallable {

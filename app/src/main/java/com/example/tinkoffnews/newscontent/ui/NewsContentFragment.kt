@@ -35,7 +35,6 @@ class NewsContentFragment : Fragment(R.layout.fragment_news_content), KodeinAwar
         retryButton.setOnClickListener {
             viewModel.getNewsContent()
         }
-
     }
 
     override fun onStart() {
@@ -79,17 +78,13 @@ class NewsContentFragment : Fragment(R.layout.fragment_news_content), KodeinAwar
             .observeOn(AndroidSchedulers.mainThread())
             .autoDisposable(AndroidLifecycleScopeProvider.from(viewLifecycleOwner, ON_STOP))
             .subscribe(
-                {
-                    newsContentTextView.text = it
-                },
-                {
-                    Log.e(TAG, it.message ?: "No error message...")
-                }
+                { newsContentTextView.text = it },
+                { Log.e(TAG, it.message ?: "No error message...") }
             )
 
         viewModel
             .isRefreshing
-            .onBackpressureBuffer()
+            .onBackpressureLatest()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .autoDisposable(AndroidLifecycleScopeProvider.from(viewLifecycleOwner, ON_STOP))

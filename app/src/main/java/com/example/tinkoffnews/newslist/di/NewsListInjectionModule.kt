@@ -5,7 +5,7 @@ import com.example.tinkoffnews.newslist.api.NewsApi
 import com.example.tinkoffnews.newslist.db.NewsDao
 import com.example.tinkoffnews.newslist.domain.*
 import com.example.tinkoffnews.newslist.gateway.NewsGateway
-import com.example.tinkoffnews.newslist.paging.NewsSourceFactory
+import com.example.tinkoffnews.newslist.domain.paging.NewsSourceFactory
 import com.example.tinkoffnews.newslist.repository.NewsRepository
 import com.example.tinkoffnews.newslist.ui.NewsViewModel
 import org.kodein.di.Kodein

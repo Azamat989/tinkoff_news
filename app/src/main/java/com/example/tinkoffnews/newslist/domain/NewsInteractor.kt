@@ -2,7 +2,7 @@ package com.example.tinkoffnews.newslist.domain
 
 import androidx.paging.PagedList
 import androidx.paging.RxPagedListBuilder
-import com.example.tinkoffnews.newslist.paging.NewsSourceFactory
+import com.example.tinkoffnews.newslist.domain.paging.NewsSourceFactory
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Completable
 import io.reactivex.Flowable

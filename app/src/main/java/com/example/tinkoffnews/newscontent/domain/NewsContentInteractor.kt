@@ -1,10 +1,9 @@
 package com.example.tinkoffnews.newscontent.domain
 
-import com.example.tinkoffnews.newscontent.gateway.NewsContentGateway
 import io.reactivex.Single
 
 class NewsContentInteractor(
-    private val newsContentGateway: NewsContentGateway
+    private val newsContentGateway: INewsContentGateway
 ) {
 
     fun getNewsContent(id: String): Single<NewsContent> =
