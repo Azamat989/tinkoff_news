@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.Lifecycle.Event.ON_STOP
 import androidx.navigation.fragment.navArgs
 import com.example.tinkoffnews.R
 import com.example.tinkoffnews.app.ui.MainActivity
@@ -66,7 +66,7 @@ class NewsContentFragment : Fragment(R.layout.fragment_news_content), KodeinAwar
                     val pixelOffset = newsContentTextView.layout.getLineTop(firstVisibleLineOffset)
                     contentScrollView.scrollBy(0, pixelOffset)
                 },
-                100
+                10
             )
         }
     }
@@ -77,7 +77,7 @@ class NewsContentFragment : Fragment(R.layout.fragment_news_content), KodeinAwar
             .newsContent
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .autoDisposable(AndroidLifecycleScopeProvider.from(viewLifecycleOwner, Lifecycle.Event.ON_STOP))
+            .autoDisposable(AndroidLifecycleScopeProvider.from(viewLifecycleOwner, ON_STOP))
             .subscribe(
                 {
                     newsContentTextView.text = it
@@ -92,7 +92,7 @@ class NewsContentFragment : Fragment(R.layout.fragment_news_content), KodeinAwar
             .onBackpressureBuffer()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .autoDisposable(AndroidLifecycleScopeProvider.from(viewLifecycleOwner, Lifecycle.Event.ON_STOP))
+            .autoDisposable(AndroidLifecycleScopeProvider.from(viewLifecycleOwner, ON_STOP))
             .subscribe(
                 {
                     if (it) showProgress()
@@ -106,7 +106,7 @@ class NewsContentFragment : Fragment(R.layout.fragment_news_content), KodeinAwar
             .onBackpressureLatest()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .autoDisposable(AndroidLifecycleScopeProvider.from(viewLifecycleOwner, Lifecycle.Event.ON_STOP))
+            .autoDisposable(AndroidLifecycleScopeProvider.from(viewLifecycleOwner, ON_STOP))
             .subscribe(
                 {
                     if (it) showRetryButton()

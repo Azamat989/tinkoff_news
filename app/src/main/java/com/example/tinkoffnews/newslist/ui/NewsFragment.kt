@@ -5,7 +5,7 @@ import android.os.Parcelable
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.Lifecycle.Event.ON_STOP
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tinkoffnews.R
@@ -93,7 +93,7 @@ class NewsFragment : Fragment(R.layout.fragment_news), KodeinAware {
             .onBackpressureBuffer()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .autoDisposable(AndroidLifecycleScopeProvider.from(lifecycle, Lifecycle.Event.ON_STOP))
+            .autoDisposable(AndroidLifecycleScopeProvider.from(lifecycle, ON_STOP))
             .subscribe(
                 {
                     Log.d(TAG, "next PagedList: size=${it.size}")
@@ -106,7 +106,7 @@ class NewsFragment : Fragment(R.layout.fragment_news), KodeinAware {
             .onBackpressureLatest()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .autoDisposable(AndroidLifecycleScopeProvider.from(lifecycle, Lifecycle.Event.ON_STOP))
+            .autoDisposable(AndroidLifecycleScopeProvider.from(lifecycle, ON_STOP))
             .subscribe(
                 { newsSwipeToRefreshLayout.isRefreshing = it },
                 { Log.e(TAG, it.message ?: "No error message...") }
