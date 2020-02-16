@@ -80,8 +80,6 @@ class NewsFragment : Fragment(R.layout.fragment_news), KodeinAware {
         newsAdapter = NewsAdapter { newsId ->
             Log.d(TAG, "newsId=$newsId")
 
-            saveRecyclerViewState()
-
             findNavController()
                 .navigate(NewsFragmentDirections.toNewsContent(newsId))
         }
