@@ -66,7 +66,7 @@ class NewsContentFragment : Fragment(R.layout.fragment_news_content), KodeinAwar
                     val pixelOffset = newsContentTextView.layout.getLineTop(firstVisibleLineOffset)
                     contentScrollView.scrollBy(0, pixelOffset)
                 },
-                10
+                50
             )
         }
     }
