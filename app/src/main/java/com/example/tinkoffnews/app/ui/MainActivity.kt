@@ -32,8 +32,6 @@ class MainActivity : AppCompatActivity(), KodeinAware {
 
         setContentView(R.layout.activity_main)
 
-        setSupportActionBar(findViewById(R.id.news_toolbar))
-
         startApp()
     }
 
@@ -48,11 +46,6 @@ class MainActivity : AppCompatActivity(), KodeinAware {
                 { Log.d(TAG, "app started") },
                 { Log.e(TAG, it.message ?: "No error message...") }
             )
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return true
     }
 
     companion object {

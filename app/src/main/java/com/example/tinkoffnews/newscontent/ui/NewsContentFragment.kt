@@ -114,12 +114,8 @@ class NewsContentFragment : Fragment(R.layout.fragment_news_content), KodeinAwar
 
     private fun setupToolbar() {
 
-        setHasOptionsMenu(true)
-
-        (requireActivity() as MainActivity).supportActionBar?.apply {
-            title = viewModel.newsId
-            setDisplayHomeAsUpEnabled(true)
-            setDisplayShowHomeEnabled(true)
+        news_content_toolbar.setNavigationOnClickListener {
+            requireActivity().onBackPressed()
         }
     }
 

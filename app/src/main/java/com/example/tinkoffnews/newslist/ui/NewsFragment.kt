@@ -9,7 +9,6 @@ import androidx.lifecycle.Lifecycle.Event.ON_STOP
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tinkoffnews.R
-import com.example.tinkoffnews.app.ui.MainActivity
 import com.example.tinkoffnews.newslist.ui.adapter.NewsAdapter
 import com.example.tinkoffnews.utils.viewModel
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
@@ -30,8 +29,6 @@ class NewsFragment : Fragment(R.layout.fragment_news), KodeinAware {
     private lateinit var newsAdapter: NewsAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-        setupToolbar()
 
         setupAdapter()
 
@@ -54,15 +51,6 @@ class NewsFragment : Fragment(R.layout.fragment_news), KodeinAware {
         super.onStop()
 
         saveRecyclerViewState()
-    }
-
-    private fun setupToolbar() {
-
-        (requireActivity() as MainActivity).supportActionBar?.apply {
-            title = getString(R.string.news_list_title)
-            setDisplayHomeAsUpEnabled(false)
-            setDisplayShowHomeEnabled(false)
-        }
     }
 
     private fun setupViews() {
