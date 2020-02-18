@@ -7,20 +7,25 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="12dp"
-    android:layout_marginEnd="12dp"
     android:layout_marginTop="6dp"
+    android:layout_marginEnd="12dp"
     android:layout_marginBottom="6dp"
+    android:animateLayoutChanges="true"
     app:cardCornerRadius="6dp"
-    app:cardElevation="6dp"
-    app:cardPreventCornerOverlap="true">
+    app:cardElevation="6dp">
+
+    <FrameLayout
+        android:layout_width="10dp"
+        android:layout_height="match_parent"
+        android:background="@color/colorAccent"/>
 
     <TextView
         android:id="@+id/newsTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-smallcaps"
-        android:textColor="@color/black"
         android:padding="16dp"
+        android:textColor="@color/black"
         android:textSize="18sp"
         tools:text="Клиенты высоко оценили уровень сервиса в банке «Тинькофф Кредитные Системы»" />
 

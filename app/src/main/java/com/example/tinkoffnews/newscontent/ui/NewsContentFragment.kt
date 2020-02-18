@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle.Event.ON_STOP
 import androidx.navigation.fragment.navArgs
 import com.example.tinkoffnews.R
-import com.example.tinkoffnews.app.ui.MainActivity
 import com.example.tinkoffnews.utils.viewModel
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
 import com.uber.autodispose.autoDisposable
@@ -114,7 +113,9 @@ class NewsContentFragment : Fragment(R.layout.fragment_news_content), KodeinAwar
 
     private fun setupToolbar() {
 
-        news_content_toolbar.setNavigationOnClickListener {
+        newsContentToolbar.title = viewModel.newsId
+
+        newsContentToolbar.setNavigationOnClickListener {
             requireActivity().onBackPressed()
         }
     }
